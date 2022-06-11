@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Game for Guessing Number</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<style>
+			body {
+				padding: 10px;
+			}
+
+			header {
+				text-align: center;
+				border: 3px solid;
+				background-color: orange;
+				color: black;
+			}
+
+			#cationArea {
+				margin-top: 30px;
+				text-align: center;
+			}
+
+			#guessArea {
+				margin-top: 20px;
+				font-size: 15pt;
+				text-align: center;
+			}
+
+			#result {
+				font-size: 14px;
+				font-weight: bold;
+				color: blue;
+				text-align: center;
+			}
+
+			.right {
+				text-align: right;
+			}
+
+			
+
+
+
+
+
+
+		</style>
+
+		<script>
+			var guess;
+
+			var MAXATTEMPT = 10;
+
+			var min = 1;
+			var max = 100;
+
+			var attemptCount = 0;
+
+			function updateRangeValue() {
+				document.getElementById("minArea").innerHTML = min;
+				document.getElementById("maxArea").innerHTML = max;
+			}
+
+			function generateNumber() {
+				secretNumber = Math.round( Math.random() * 99, 0 ) + 1;
+				console.log("Secret Number " + secretNumber); 
+			}
+
+			function checking() { 
+				var message;
+				guess = parseInt( document.getElementById("guessNumber").value );
+
+				attemptCount++;
+
+				if ( isNaN(guess) || guess == null ) {
+					message = "Invalid Number !";
+				} else if (guess > max || guess < min) {
+					message = "Not within the range !";
+				} else if (guess == secretNumber) {
+					message = "Extra Match! Congratulation.";
+				} else if (guess > secretNumber) {
+					max = guess - 1;
+					message = "Not Match! The number is too large.";
+				} else if (guess < secretNumber) {
+					min = guess + 1;
+					message = "Not Match! The number is too small.";
+				}
+
+				var exceed = checkMaximum();
+
+				if (exceed == true) {
+					message += "<br />Maximum Attempts reached! "; 
+					message += "The secret number is " + secretNumber + ".";
+				}
+
+				function checkMaximum() {
+					return ( attemptCount >= MAXATTEMPT ) ? true : false;
+				}
+
+
+
+
+				document.getElementById("result").innerHTML = message;
+
+				if (guess != secretNumber) {
+					updateRangeValue();
+				}
+			}
+
+
+
+
+
+
+
+
+		</script>
+
+
+
+	</head>
+	
+	<body onLoad="generateNumber(); updateRangeValue()">
+
+		<header>
+			<h1>Game for Guessing Number</h1>
+		</header>
+		
+		<div id="captionArea">
+			<h3>Enter a number between 
+			   <span id="minArea"></span>
+			   and 
+			   <span id="maxArea"></span>
+			</h3>				
+		</div>
+			
+		<div id="guessArea">
+			<form>
+				<p>
+					<input type="number" id="guessNumber" class="right" style="width: 100px">
+				</p>
+					<button type="button" class="btn btn-primary btn-sm" id="guessBtn" onClick="checking()">Guess</button>
+			</form>
+		</div>	
+
+		<div id="result">
+
+		</div>
+
+		<input type="checkbox" id="toggle" class="toggle--checkbox" />
+		<label for="toggle" class="toggle--label">
+		  <span class="toggle--label-background"></span>
+		</label>
+		<div class="background"></div>		
+
+		<div id="footer" xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<p id="copyright" property="dc:rights">&copy;
+		  <span property="dc:dateCopyrighted">2022</span>
+		  <span property="dc:publisher">M102 Evaluation Workshop</span>
+		</p>
+		</div>
+	</body>
+</html>
+
+
+
